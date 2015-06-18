@@ -22,6 +22,8 @@
 
     <!-- Min/target SDK versions (<uses-sdk>) managed by build.gradle -->
 
+    <!-- NOTE: only open source code used to generate this project -->
+
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
 
     <application android:allowBackup="true"
