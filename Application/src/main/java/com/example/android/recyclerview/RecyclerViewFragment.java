@@ -73,7 +73,7 @@ public class RecyclerViewFragment extends Fragment implements LoaderManager.Load
             return new CursorLoader(getActivity(),
                     contentUri,
                     ContactsQuery.PROJECTION,
-                    ContactsQuery.SELECTION,HN
+                    ContactsQuery.SELECTION,
                     null,
                     ContactsQuery.SORT_ORDER);
         }
@@ -86,8 +86,7 @@ public class RecyclerViewFragment extends Fragment implements LoaderManager.Load
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         // This swaps the new cursor into the adapter.
         if (loader.getId() == ContactsQuery.QUERY_ID) {
-          //  mAdapter.swapCursor(data);
-            data.
+              mAdapter.swapCursor(data);
 
         }
     }
@@ -97,7 +96,7 @@ public class RecyclerViewFragment extends Fragment implements LoaderManager.Load
         if (loader.getId() == ContactsQuery.QUERY_ID) {
             // When the loader is being reset, clear the cursor from the adapter. This allows the
             // cursor resources to be freed.
-           // mAdapter.swapCursor(null);
+            mAdapter.swapCursor(null);
         }
     }
 
@@ -112,17 +111,14 @@ public class RecyclerViewFragment extends Fragment implements LoaderManager.Load
     protected RadioButton mGridLayoutRadioButton;
 
     protected RecyclerView mRecyclerView;
-    protected CustomAdapter mAdapter;
+    protected ContactsRecyclerAdapter mAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
-    protected String[] mDataset;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Initialize dataset, this data would usually come from a local content provider or
-        // remote server.
-        initDataset();
+        //get data set on loader. todo: loading spinner
     }
 
     @Override
@@ -156,7 +152,7 @@ public class RecyclerViewFragment extends Fragment implements LoaderManager.Load
         }
         setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
 
-        mAdapter = new CustomAdapter(mDataset);
+        mAdapter = new ContactsRecyclerAdapter(null);
         // Set CustomAdapter as the adapter for RecyclerView.
         mRecyclerView.setAdapter(mAdapter);
         // END_INCLUDE(initializeRecyclerView)
@@ -219,16 +215,7 @@ public class RecyclerViewFragment extends Fragment implements LoaderManager.Load
         super.onSaveInstanceState(savedInstanceState);
     }
 
-    /**
-     * Generates Strings for RecyclerView's adapter. This data would usually come
-     * from a local content provider or remote server.
-     */
-    private void initDataset() {
-        mDataset = new String[DATASET_COUNT];
-        for (int i = 0; i < DATASET_COUNT; i++) {
-            mDataset[i] = "This is element #" + i;
-        }
-    }
+
 
     public static boolean hasHoneyComb() {
         return true;
@@ -277,13 +264,13 @@ public class RecyclerViewFragment extends Fragment implements LoaderManager.Load
                 // some other useful identifier such as an email address. This column isn't
                 // available in earlier versions of Android, so you must use Contacts.DISPLAY_NAME
                 // instead.
-                hasHoneyComb() ? Contacts.DISPLAY_NAME_PRIMARY,
+                 Contacts.DISPLAY_NAME_PRIMARY,
 
                 // In Android 3.0 and later, the thumbnail image is pointed to by
                 // PHOTO_THUMBNAIL_URI. In earlier versions, there is no direct pointer; instead,
                 // you generate the pointer from the contact's ID value and constants defined in
                 // android.provider.ContactsContract.Contacts.
-                hasHoneyComb() ? Contacts.PHOTO_THUMBNAIL_URI,
+                Contacts.PHOTO_THUMBNAIL_URI,
 
                 // The sort order column for the returned Cursor, used by the AlphabetIndexer
                 SORT_ORDER,
